@@ -1,9 +1,17 @@
 const OpenAI = require("openai");
 
+// const client = new OpenAI({
+//     apiKey: process.env.OPENROUTER_API_KEY,
+//     baseURL: "https://openrouter.ai/api/v1",
+// });
+
+
 const client = new OpenAI({
     apiKey: process.env.OPENROUTER_API_KEY,
     baseURL: "https://openrouter.ai/api/v1",
+  
 });
+
 
 console.log("apikey =>", process.env.OPENROUTER_API_KEY);
 
@@ -16,14 +24,7 @@ const handleChat = async (req, res) => {
 
         // Custom prompt template
         const promptTemplate = `
-You are an expert ICD-10 medical coding assistant.
-Provide the most accurate ICD-10 code(s) for the medical term provided by the user.
-If necessary, explain briefly why that code is applicable.
-Respond concisely in the following format:
-Code: <ICD-10 code>
-Description: <Brief description>
-
-Medical term: "${query}"
+You are an expert ICD-10 medical coding assistant. Provide the most accurate ICD-10 code(s) for the medical term provided by the user. If necessary, explain briefly why that code is applicable. Respond concisely in the following format: Code: <ICD-10 code> Description: <Brief description> Medical term: "${query}" ; add if any exclude1 & 2, include, or other icd conventions like code also, use additional exact from icd 10 cm book of current year version and also add if any coding clinic available related to that code."
 `;
 
         const response = await client.chat.completions.create({
